@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bootstrap Test</title>
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="./generated/lib/randori-guice-framework.js"></script>
+    <script type="text/javascript" src="./generated/lib/randori-framework.js"></script>
+
+    <script type="text/javascript" src="./jsLibs/bootstrap/js/bootstrap.js"></script>
+    <!--<script type="text/javascript" src="./jsLibs/bootstrap/js/bootstrap.min.js"></script>-->
+
+    <link rel="stylesheet/randori" href="./assets/behaviors.css" type="text/css"/>
+    <link rel="stylesheet" href="./jsLibs/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./assets/style/style.css"/>
+
+    <script type="text/javascript">
+        //Start the randori framework
+        jQuery(function () {
+            var randoriApp = new randori.startup.RandoriBootstrap(document);
+            randoriApp.launch( true );
+
+        });
+    </script>
+</head>
+<body class="App">
+
+   <div id="alert"></div>
+   <div id="alert_error"></div>
+   <div id="alert_succes"></div>
+   <div id="alert_info"></div>
+
+</body>
+</html>

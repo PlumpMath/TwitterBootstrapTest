@@ -1,4 +1,4 @@
-/** Compiled by the Randori compiler v0.2.4 on Sun Jun 02 09:35:07 CEST 2013 */
+/** Compiled by the Randori compiler v0.2.4 on Sun Jun 02 10:00:45 CEST 2013 */
 
 if (typeof twitterbootstrap == "undefined")
 	var twitterbootstrap = {};
@@ -21,14 +21,15 @@ twitterbootstrap.Button = function(container, label, type, size, enabled, block)
 		block = false;
 	}
 	this.buttonClicked = new randori.signal.SimpleSignal();
-	this.domNode = container;
-	this.set_enabled(enabled);
-	this.domNode.empty();
-	this.domNode.addClass("btn");
-	block && container.addClass("btn-block");
-	this.domNode.addClass("btn-" + type);
+	this.domNode = jQuery("<button><\/button>");
 	this.set_label(label);
+	this.domNode.addClass("btn");
+	this.domNode.addClass("btn-" + type);
+	this.domNode.addClass("btn-" + size);
+	this.set_enabled(enabled);
+	block && container.addClass("btn-block");
 	this.domNode.click($createStaticDelegate(this, this.clickHandler));
+	container.append(this.domNode);
 };
 
 twitterbootstrap.Button.TYPE_DEFAULT ="default";

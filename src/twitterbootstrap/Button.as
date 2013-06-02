@@ -1,6 +1,7 @@
 package twitterbootstrap {
 import randori.jquery.Event;
 import randori.jquery.JQuery;
+import randori.jquery.JQueryStatic;
 import randori.signal.SimpleSignal;
 
 [JavaScript(export="true", name="Button")]
@@ -28,7 +29,7 @@ public class Button {
 
     /**
      *
-     * @param container should be <button>,<input> or <a>
+     * @param container parentcontainer
      * @param label
      * @param type
      * @param size
@@ -37,14 +38,15 @@ public class Button {
      */
     public function Button( container:JQuery, label:String, type:String="default", size:String="default", enabled=true, block:Boolean=false ) {
         buttonClicked = new SimpleSignal();
-        this.domNode = container;
-        this.enabled = enabled;
-        this.domNode.empty();
-        this.domNode.addClass("btn");
-        block && container.addClass("btn-block");
-        this.domNode.addClass( "btn-" + type ); //btn-default is not an existing css-class in bootstrap, but it might as well be
+        this.domNode = JQueryStatic.J("<button></button>");
         this.label = label;
-        this.domNode.click1( clickHandler )
+        this.domNode.addClass("btn");
+        this.domNode.addClass( "btn-" + type ); //btn-default is not an existing css-class in bootstrap, but it might as well be
+        this.domNode.addClass( "btn-" + size );
+        this.enabled = enabled;
+        block && container.addClass("btn-block");
+        this.domNode.click1( clickHandler );
+        container.append( this.domNode );
     }
 
     private function clickHandler( e:Event ):void{

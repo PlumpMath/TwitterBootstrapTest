@@ -1,4 +1,4 @@
-/** Compiled by the Randori compiler v0.2.4 on Sun Jun 02 09:35:07 CEST 2013 */
+/** Compiled by the Randori compiler v0.2.4 on Sun Jun 02 10:01:37 CEST 2013 */
 
 if (typeof twitterbootstrap == "undefined")
 	var twitterbootstrap = {};
@@ -19,8 +19,7 @@ twitterbootstrap.Alert = function(container, message, type, title, hasDismissBut
 		multiline = false;
 	}
 	this.closedByUser = new randori.signal.SimpleSignal();
-	this.domNode = container;
-	this.domNode.empty();
+	this.domNode = jQuery("<div><\/div>");
 	this.domNode.addClass("alert");
 	this.domNode.addClass("alert-" + type);
 	multiline && this.domNode.addClass("alert-block");
@@ -28,6 +27,7 @@ twitterbootstrap.Alert = function(container, message, type, title, hasDismissBut
 	this.domNode.append(this.createTitle(title || type + "!"));
 	multiline && this.domNode.append("<br \/>");
 	this.domNode.append(" " + message);
+	container.append(this.domNode);
 };
 
 twitterbootstrap.Alert.TYPE_WARNING ="warning";

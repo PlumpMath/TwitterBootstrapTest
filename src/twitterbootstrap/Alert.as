@@ -18,7 +18,7 @@ public class Alert {
 
     /**
      * Wrap any text, title and an optional dismiss button for a basic warning alert message.
-     * @param container container the alert will be append to ( all childs will be removed )
+     * @param container parent container
      * @param message message of the alert
      * @param type type of the alert
      * @param title title of the alert, by default the type of the alert will be displayed
@@ -27,8 +27,7 @@ public class Alert {
      */
     public function Alert( container:JQuery, message:String, type:String="warning", title:String="", hasDismissButton:Boolean=true, multiline:Boolean=false ){
         closedByUser = new SimpleSignal();
-        this.domNode = container;
-        this.domNode.empty();
+        this.domNode = JQueryStatic.J("<div></div>");
         this.domNode.addClass("alert");
         this.domNode.addClass( "alert-" + type ); //alert-warning is not an existing css-class, but hey, let's go crazy and omit yet another conditional
         multiline && this.domNode.addClass( "alert-block" );
@@ -36,6 +35,7 @@ public class Alert {
         this.domNode.append( this.createTitle( title || type + "!" ) );
         multiline && this.domNode.append( "<br />" );
         this.domNode.append( " " + message );
+        container.append( this.domNode );
     }
 
     private function dismissHandler( e:Event ):void{

@@ -21,32 +21,36 @@ public class Button {
     public static const SIZE_SMALL:String = "small";
     public static const SIZE_MINI:String = "mini";
 
-    private var domNode:JQuery;
+    public var domNode:JQuery;
     private var _enabled:Boolean = true;
     private var _label:String = "";
+    private var _icon:Icon = null;
+    private var _icon_right:Boolean = false;
 
     [inject] public var buttonClicked:SimpleSignal;
 
     /**
      *
-     * @param container parentcontainer
      * @param label
      * @param type
      * @param size
      * @param enabled
+     * @param icon
+     * @param icon_right icon is placed on the right side of the label
      * @param block set true for block level buttons—those that span the full width of a parent
      */
-    public function Button( container:JQuery, label:String, type:String="default", size:String="default", enabled=true, block:Boolean=false ) {
+    public function Button( label:String, type:String="default", size:String="default", enabled=true, icon:Icon = null, icon_right:Boolean = false, block:Boolean=false ) {
         buttonClicked = new SimpleSignal();
         this.domNode = JQueryStatic.J("<button></button>");
+        this._icon = icon;
+        this._icon_right = icon_right;
         this.label = label;
         this.domNode.addClass("btn");
         this.domNode.addClass( "btn-" + type ); //btn-default is not an existing css-class in bootstrap, but it might as well be
         this.domNode.addClass( "btn-" + size );
         this.enabled = enabled;
-        block && container.addClass("btn-block");
+        block && this.domNode.addClass("btn-block");
         this.domNode.click1( clickHandler );
-        container.append( this.domNode );
     }
 
     private function clickHandler( e:Event ):void{
@@ -75,7 +79,14 @@ public class Button {
 
     public function set label(value:String):void {
         _label = value;
-        this.domNode.html( " " + value );
+
+        if(_icon && _icon_right){
+            this.domNode.html2( value + " " + _icon.toHtmlString() );
+        }else if(_icon && !_icon_right){
+            this.domNode.html2( _icon.toHtmlString() + " " +value );
+        }else{
+            this.domNode.html2( value );
+        }
     }
 
     public function get label():String {

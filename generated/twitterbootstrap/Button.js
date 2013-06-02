@@ -1,35 +1,44 @@
-/** Compiled by the Randori compiler v0.2.4 on Sun Jun 02 10:00:45 CEST 2013 */
+/** Compiled by the Randori compiler v0.2.4 on Sun Jun 02 12:50:22 CEST 2013 */
 
 if (typeof twitterbootstrap == "undefined")
 	var twitterbootstrap = {};
 
-twitterbootstrap.Button = function(container, label, type, size, enabled, block) {
-	this.domNode = null;
-	this.buttonClicked = null;
+twitterbootstrap.Button = function(label, type, size, enabled, icon, icon_right, block) {
+	this._icon = null;
 	this._label = "";
 	this._enabled = true;
-	if (arguments.length < 6) {
-		if (arguments.length < 5) {
-			if (arguments.length < 4) {
-				if (arguments.length < 3) {
-					type = "default";
+	this._icon_right = false;
+	this.domNode = null;
+	this.buttonClicked = null;
+	if (arguments.length < 7) {
+		if (arguments.length < 6) {
+			if (arguments.length < 5) {
+				if (arguments.length < 4) {
+					if (arguments.length < 3) {
+						if (arguments.length < 2) {
+							type = "default";
+						}
+						size = "default";
+					}
+					enabled = true;
 				}
-				size = "default";
+				icon = null;
 			}
-			enabled = true;
+			icon_right = false;
 		}
 		block = false;
 	}
 	this.buttonClicked = new randori.signal.SimpleSignal();
 	this.domNode = jQuery("<button><\/button>");
+	this._icon = icon;
+	this._icon_right = icon_right;
 	this.set_label(label);
 	this.domNode.addClass("btn");
 	this.domNode.addClass("btn-" + type);
 	this.domNode.addClass("btn-" + size);
 	this.set_enabled(enabled);
-	block && container.addClass("btn-block");
+	block && this.domNode.addClass("btn-block");
 	this.domNode.click($createStaticDelegate(this, this.clickHandler));
-	container.append(this.domNode);
 };
 
 twitterbootstrap.Button.TYPE_DEFAULT ="default";
@@ -81,7 +90,13 @@ twitterbootstrap.Button.prototype.enable = function() {
 
 twitterbootstrap.Button.prototype.set_label = function(value) {
 	this._label = value;
-	this.domNode.html(" " + value);
+	if (this._icon && this._icon_right) {
+		this.domNode.html(value + " " + this._icon.toHtmlString());
+	} else if (this._icon && !this._icon_right) {
+		this.domNode.html(this._icon.toHtmlString() + " " + value);
+	} else {
+		this.domNode.html(value);
+	}
 };
 
 twitterbootstrap.Button.prototype.get_label = function() {
@@ -102,11 +117,12 @@ twitterbootstrap.Button.injectionPoints = function(t) {
 	switch (t) {
 		case 0:
 			p = [];
-			p.push({n:'container', t:'randori.jquery.JQuery'});
 			p.push({n:'label', t:'String'});
 			p.push({n:'type', t:'String'});
 			p.push({n:'size', t:'String'});
 			p.push({n:'enabled', t:'Object'});
+			p.push({n:'icon', t:'twitterbootstrap.Icon'});
+			p.push({n:'icon_right', t:'Boolean'});
 			p.push({n:'block', t:'Boolean'});
 			break;
 		default:

@@ -1,15 +1,15 @@
-/** Compiled by the Randori compiler v0.2.4 on Sun Jun 02 10:01:37 CEST 2013 */
+/** Compiled by the Randori compiler v0.2.4 on Sun Jun 02 12:47:00 CEST 2013 */
 
 if (typeof twitterbootstrap == "undefined")
 	var twitterbootstrap = {};
 
-twitterbootstrap.Alert = function(container, message, type, title, hasDismissButton, multiline) {
+twitterbootstrap.Alert = function(message, type, title, hasDismissButton, multiline) {
 	this.domNode = null;
 	this.closedByUser = null;
-	if (arguments.length < 6) {
-		if (arguments.length < 5) {
-			if (arguments.length < 4) {
-				if (arguments.length < 3) {
+	if (arguments.length < 5) {
+		if (arguments.length < 4) {
+			if (arguments.length < 3) {
+				if (arguments.length < 2) {
 					type = "warning";
 				}
 				title = "";
@@ -27,7 +27,6 @@ twitterbootstrap.Alert = function(container, message, type, title, hasDismissBut
 	this.domNode.append(this.createTitle(title || type + "!"));
 	multiline && this.domNode.append("<br \/>");
 	this.domNode.append(" " + message);
-	container.append(this.domNode);
 };
 
 twitterbootstrap.Alert.TYPE_WARNING ="warning";
@@ -72,7 +71,6 @@ twitterbootstrap.Alert.injectionPoints = function(t) {
 	switch (t) {
 		case 0:
 			p = [];
-			p.push({n:'container', t:'randori.jquery.JQuery'});
 			p.push({n:'message', t:'String'});
 			p.push({n:'type', t:'String'});
 			p.push({n:'title', t:'String'});

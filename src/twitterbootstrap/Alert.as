@@ -12,20 +12,19 @@ public class Alert {
     public static const TYPE_SUCCESS:String = "success";
     public static const TYPE_INFO:String = "info";
 
-    private var domNode:JQuery;
+    public var domNode:JQuery;
 
     [inject] public var closedByUser:SimpleSignal; //Signal will be dispatched before the alert is actually removed
 
     /**
      * Wrap any text, title and an optional dismiss button for a basic warning alert message.
-     * @param container parent container
      * @param message message of the alert
      * @param type type of the alert
      * @param title title of the alert, by default the type of the alert will be displayed
      * @param hasDismissButton determines if dissmissbutton is displayed
      * @param multiline if true, the padding on the top and bottom of the alert will be increased and a <br> will be inserted between title and message
      */
-    public function Alert( container:JQuery, message:String, type:String="warning", title:String="", hasDismissButton:Boolean=true, multiline:Boolean=false ){
+    public function Alert( message:String, type:String="warning", title:String="", hasDismissButton:Boolean=true, multiline:Boolean=false ){
         closedByUser = new SimpleSignal();
         this.domNode = JQueryStatic.J("<div></div>");
         this.domNode.addClass("alert");
@@ -35,7 +34,6 @@ public class Alert {
         this.domNode.append( this.createTitle( title || type + "!" ) );
         multiline && this.domNode.append( "<br />" );
         this.domNode.append( " " + message );
-        container.append( this.domNode );
     }
 
     private function dismissHandler( e:Event ):void{

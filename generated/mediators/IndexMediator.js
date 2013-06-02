@@ -1,10 +1,12 @@
-/** Compiled by the Randori compiler v0.2.4 on Sun Jun 02 07:45:25 CEST 2013 */
+/** Compiled by the Randori compiler v0.2.4 on Sun Jun 02 08:29:49 CEST 2013 */
 
 if (typeof mediators == "undefined")
 	var mediators = {};
 
 mediators.IndexMediator = function() {
 	this.alert_succes = null;
+	this.button = null;
+	this.button2 = null;
 	this.alert = null;
 	this.alert_info = null;
 	this.alert_error = null;
@@ -21,6 +23,8 @@ mediators.IndexMediator.prototype.onRegister = function() {
 	alertTest2.closedByUser.add($createStaticDelegate(this, this.alertClosedHandler));
 	alertTest3.closedByUser.add($createStaticDelegate(this, this.alertClosedHandler));
 	alertTest4.closedByUser.add($createStaticDelegate(this, this.alertClosedHandler));
+	var btn = new twitterbootstrap.Button(this.button, "test");
+	var btn2 = new twitterbootstrap.Button(this.button2, "test", twitterbootstrap.Button.TYPE_INVERSE, twitterbootstrap.Button.SIZE_MINI, false);
 };
 
 mediators.IndexMediator.prototype.alertClosedHandler = function(e, target) {
@@ -38,6 +42,7 @@ mediators.IndexMediator.getClassDependencies = function(t) {
 	var p;
 	p = [];
 	p.push('twitterbootstrap.Alert');
+	p.push('twitterbootstrap.Button');
 	return p;
 };
 
@@ -56,6 +61,8 @@ mediators.IndexMediator.injectionPoints = function(t) {
 			p.push({n:'alert_succes'});
 			p.push({n:'alert_info'});
 			p.push({n:'alert_error'});
+			p.push({n:'button'});
+			p.push({n:'button2'});
 			break;
 		default:
 			p = [];

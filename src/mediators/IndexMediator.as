@@ -5,6 +5,7 @@ import randori.jquery.JQuery;
 import randori.webkit.page.Window;
 
 import twitterbootstrap.Alert;
+import twitterbootstrap.Button;
 
 public class IndexMediator extends AbstractMediator {
 
@@ -12,6 +13,9 @@ public class IndexMediator extends AbstractMediator {
     [View] public var alert_succes:JQuery;
     [View] public var alert_info:JQuery;
     [View] public var alert_error:JQuery;
+
+    [View] public var button:JQuery;
+    [View] public var button2:JQuery;
 
     override protected function onRegister():void {
         var alertTest:Alert = new Alert( alert, "this is a warning", Alert.TYPE_WARNING, "custom title" );
@@ -25,6 +29,9 @@ public class IndexMediator extends AbstractMediator {
         alertTest2.closedByUser.add( alertClosedHandler );
         alertTest3.closedByUser.add( alertClosedHandler );
         alertTest4.closedByUser.add( alertClosedHandler );
+
+        var btn:Button = new Button( button, "test");
+        var btn2:Button = new Button( button2, "test", Button.TYPE_INVERSE, Button.SIZE_MINI, false);
     }
 
     private function alertClosedHandler( e:Event, target:Alert ):void{

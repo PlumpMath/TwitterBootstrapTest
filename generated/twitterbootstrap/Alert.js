@@ -1,9 +1,10 @@
-/** Compiled by the Randori compiler v0.2.4 on Sun Jun 02 07:55:27 CEST 2013 */
+/** Compiled by the Randori compiler v0.2.4 on Sun Jun 02 09:35:07 CEST 2013 */
 
 if (typeof twitterbootstrap == "undefined")
 	var twitterbootstrap = {};
 
-twitterbootstrap.Alert = function(div, message, type, title, hasDismissButton, multiline) {
+twitterbootstrap.Alert = function(container, message, type, title, hasDismissButton, multiline) {
+	this.domNode = null;
 	this.closedByUser = null;
 	if (arguments.length < 6) {
 		if (arguments.length < 5) {
@@ -18,21 +19,22 @@ twitterbootstrap.Alert = function(div, message, type, title, hasDismissButton, m
 		multiline = false;
 	}
 	this.closedByUser = new randori.signal.SimpleSignal();
-	div.empty();
-	div.addClass("alert");
-	div.addClass("alert-" + type);
-	multiline && div.addClass("alert-block");
-	hasDismissButton && div.append(this.createDismissButton());
-	div.append(this.createTitle(title || type + "!"));
-	multiline && div.append("<br \/>");
-	div.append(" " + message);
+	this.domNode = container;
+	this.domNode.empty();
+	this.domNode.addClass("alert");
+	this.domNode.addClass("alert-" + type);
+	multiline && this.domNode.addClass("alert-block");
+	hasDismissButton && this.domNode.append(this.createDismissButton());
+	this.domNode.append(this.createTitle(title || type + "!"));
+	multiline && this.domNode.append("<br \/>");
+	this.domNode.append(" " + message);
 };
 
 twitterbootstrap.Alert.TYPE_WARNING ="warning";
 
 twitterbootstrap.Alert.TYPE_ERROR ="error";
 
-twitterbootstrap.Alert.TYPE_SUCCES ="succes";
+twitterbootstrap.Alert.TYPE_SUCCESS ="success";
 
 twitterbootstrap.Alert.TYPE_INFO ="info";
 
@@ -70,7 +72,7 @@ twitterbootstrap.Alert.injectionPoints = function(t) {
 	switch (t) {
 		case 0:
 			p = [];
-			p.push({n:'div', t:'randori.jquery.JQuery'});
+			p.push({n:'container', t:'randori.jquery.JQuery'});
 			p.push({n:'message', t:'String'});
 			p.push({n:'type', t:'String'});
 			p.push({n:'title', t:'String'});

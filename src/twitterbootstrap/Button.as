@@ -1,4 +1,5 @@
 package twitterbootstrap {
+import randori.jquery.Event;
 import randori.jquery.JQuery;
 import randori.signal.SimpleSignal;
 
@@ -8,7 +9,7 @@ public class Button {
     public static const TYPE_DEFAULT:String = "default";
     public static const TYPE_PRIMARY:String = "primary";
     public static const TYPE_INFO:String = "info";
-    public static const TYPE_SUCCES:String = "succes";
+    public static const TYPE_SUCCESS:String = "success";
     public static const TYPE_WARNING:String = "warning";
     public static const TYPE_DANGER:String = "danger";
     public static const TYPE_INVERSE:String = "inverse";
@@ -20,6 +21,8 @@ public class Button {
     public static const SIZE_MINI:String = "mini";
 
     private var domNode:JQuery;
+    private var _enabled:Boolean = true;
+    private var _label:String = "";
 
     [inject] public var buttonClicked:SimpleSignal;
 
@@ -35,17 +38,46 @@ public class Button {
     public function Button( container:JQuery, label:String, type:String="default", size:String="default", enabled=true, block:Boolean=false ) {
         buttonClicked = new SimpleSignal();
         this.domNode = container;
+        this.enabled = enabled;
         this.domNode.empty();
         this.domNode.addClass("btn");
-        !enabled && disableButton( this );
         block && container.addClass("btn-block");
         this.domNode.addClass( "btn-" + type ); //btn-default is not an existing css-class in bootstrap, but it might as well be
-        this.domNode.append( " " + label )
+        this.label = label;
+        this.domNode.click1( clickHandler )
     }
 
-    public function disableButton( button:Button ):void{
-        button.domNode.addClass( "disabled" );
-        button.domNode.prop2( "disabled", "disabled");
+    private function clickHandler( e:Event ):void{
+        buttonClicked.dispatch( e, this );
+    }
+
+    public function get enabled():Boolean {
+        return _enabled;
+    }
+
+    public function set enabled(value:Boolean):void {
+        _enabled = value;
+        _enabled ? enable() : disable();
+
+    }
+
+    private function disable():void{
+        this.domNode.addClass( "disabled" );
+        this.domNode.prop2( "disabled", "disabled");
+    }
+
+    private function enable():void{
+        this.domNode.removeClass( "disabled" );
+        this.domNode.removeProp( "disabled" );
+    }
+
+    public function set label(value:String):void {
+        _label = value;
+        this.domNode.html( " " + value );
+    }
+
+    public function get label():String {
+        return this._label;
     }
 }
 }

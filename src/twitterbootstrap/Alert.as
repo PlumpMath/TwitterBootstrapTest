@@ -9,30 +9,33 @@ public class Alert {
 
     public static const TYPE_WARNING:String = "warning";
     public static const TYPE_ERROR:String = "error";
-    public static const TYPE_SUCCES:String = "succes";
+    public static const TYPE_SUCCESS:String = "success";
     public static const TYPE_INFO:String = "info";
+
+    private var domNode:JQuery;
 
     [inject] public var closedByUser:SimpleSignal; //Signal will be dispatched before the alert is actually removed
 
     /**
      * Wrap any text, title and an optional dismiss button for a basic warning alert message.
-     * @param div container the alert will be append to ( all childs will be removed )
+     * @param container container the alert will be append to ( all childs will be removed )
      * @param message message of the alert
      * @param type type of the alert
      * @param title title of the alert, by default the type of the alert will be displayed
      * @param hasDismissButton determines if dissmissbutton is displayed
      * @param multiline if true, the padding on the top and bottom of the alert will be increased and a <br> will be inserted between title and message
      */
-    public function Alert( div:JQuery, message:String, type:String="warning", title:String="", hasDismissButton:Boolean=true, multiline:Boolean=false ){
+    public function Alert( container:JQuery, message:String, type:String="warning", title:String="", hasDismissButton:Boolean=true, multiline:Boolean=false ){
         closedByUser = new SimpleSignal();
-        div.empty();
-        div.addClass("alert");
-        div.addClass( "alert-" + type ); //alert-warning is not an existing css-class, but hey, let's go crazy and omit yet another conditional
-        multiline && div.addClass( "alert-block" );
-        hasDismissButton && div.append( this.createDismissButton() );
-        div.append( this.createTitle( title || type + "!" ) );
-        multiline && div.append( "<br />" );
-        div.append( " " + message );
+        this.domNode = container;
+        this.domNode.empty();
+        this.domNode.addClass("alert");
+        this.domNode.addClass( "alert-" + type ); //alert-warning is not an existing css-class, but hey, let's go crazy and omit yet another conditional
+        multiline && this.domNode.addClass( "alert-block" );
+        hasDismissButton && this.domNode.append( this.createDismissButton() );
+        this.domNode.append( this.createTitle( title || type + "!" ) );
+        multiline && this.domNode.append( "<br />" );
+        this.domNode.append( " " + message );
     }
 
     private function dismissHandler( e:Event ):void{
